@@ -126,16 +126,6 @@
                   <a href="/product?productId=<%= product._id %>" class="img-prod">
                     <img class="img-fluid zoomable" src="/ResizedImages/<%= product.image[0] %>"
                       alt="Colorlib Template">
-                    <% if ( product.offer ) { %>
-                      <span class="status">
-                        <%= product.offer.percentage %>% off
-                      </span>
-                      <%} else if ( product.category.offer ) { %>
-                        <span class="status">
-                          <%= product.category.offer.percentage %>% off
-                        </span>
-                        <% } %>
-
                           <div class="overlay"></div>
                   </a>
                   <div class="text py-3 pb-4 px-3">
@@ -175,24 +165,10 @@
                           <%=product.name %>
                         </a></h3>
                       <div class="pricing">
-                        <% if ( product.offer){ var discount=(product.price * product.offer.percentage / 100).toFixed(0)
-                          } else if ( product.category.offer ) {var discount=( product.price *
-                          product.category.offer.percentage / 100 ).toFixed(0) } %>
 
-                          <% if ( product.offer ) { %>
-                            <p class="mb-0"><del>₹ <%= product.price %></del></p>
-                            <p class="price">₹ <%= product.price - discount %> <br><span class="badge badge-success">
-                                  Save ₹ <%= discount %>
-                                </span></p>
-                            <%} else if ( product.category.offer ) { %>
-                              <p class="mb-0"><del>₹ <%= product.price %></del></p>
-                              <p class="price">₹ <%= product.price - discount %> <br>
-                                  <span class="badge badge-success"> Save ₹ <%= discount %>
-                                  </span></p>
-                              <% } else { %>
                                 <p class="price"><span>₹<%= product.price %></span></p>
                                 </h5>
-                                <% } %>
+                    
 
                                   <% if(product.stockQuantity==0){ %>
                                     <p style="color: red;">Out of Stock</p>
@@ -242,15 +218,6 @@
                   <a href="/product?productId=<%= product._id %>" class="img-prod">
                     <img class="img-fluid zoomable" src="/ResizedImages/<%= product.image[0] %>"
                       alt="Colorlib Template">
-                    <% if ( product.offer ) { %>
-                      <span class="status">
-                        <%= product.offer.percentage %>% off
-                      </span>
-                      <%} else if ( product.category.offer ) { %>
-                        <span class="status">
-                          <%= product.category.offer.percentage %>% off
-                        </span>
-                        <% } %>
 
                           <div class="overlay"></div>
                   </a>
@@ -291,31 +258,12 @@
                           <%=product.name %>
                         </a></h3>
                       <div class="pricing">
-                        <% if ( product.offer){ var discount=(product.price * product.offer.percentage / 100).toFixed(0)
-                          } else if ( product.category.offer ) {var discount=( product.price *
-                          product.category.offer.percentage / 100 ).toFixed(0) } %>
-
-                          <% if ( product.offer ) { %>
-                            <p class="mb-0"><del>₹ <%= product.price %></del></p>
-                            <p class="price">₹ <%= product.price - discount %> <br><span class="badge badge-success">
-                                  Save ₹ <%= discount %>
-                                </span></p>
-                            <%} else if ( product.category.offer ) { %>
-                              <p class="mb-0"><del>₹ <%= product.price %></del></p>
-                              <p class="price">₹ <%= product.price - discount %> <br>
-                                  <span class="badge badge-success"> Save ₹ <%= discount %>
-                                  </span></p>
-                              <% } else { %>
                                 <p class="price"><span>₹<%= product.price %></span></p>
                                 </h5>
-                                <% } %>
-
                                   <% if(product.stockQuantity==0){ %>
                                     <p style="color: red;">Out of Stock</p>
-                                    <% }%>
-
+                                  <% }%>
                       </div>
-
                     </div>
                     <!-- ... -->
                   </div>
@@ -323,9 +271,7 @@
               </div>
               <% }) %>
                 <% } else { %>
-
                   <h3>No products available</h3>
-
                   <% } %>
                     <div class="row mt-5">
                       <div class="col text-center">

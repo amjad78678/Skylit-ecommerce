@@ -7,7 +7,6 @@ const checkoutController = require("../controllers/checkoutController");
 
 checkoutRoute.set("views", "./views/user");
 
-
 checkoutRoute.get('/checkout-items',auth.checkBlocked,auth.isLogin,checkoutController.loadCheckout);
 
 checkoutRoute.post('/addAddress',checkoutController.addAddress);

@@ -488,6 +488,7 @@
 
       <script>
         async function placeOrdersSelect() {
+          console.log('clicking place order');
           const addressRadios = document.getElementsByName('selectedAddress')
           const paymentRadios = document.getElementsByName('payment')
 
@@ -541,16 +542,7 @@
           const address = document.querySelector('input[name="selectedAddress"]:checked')?.value;
           const payment = document.querySelector('input[name="payment"]:checked').value;
 
-          // Retrieve the selected coupon code
-          const selectedCouponButton = document.querySelector('.apply-coupon-btn.active');
-          const couponCode = selectedCouponButton ? selectedCouponButton.dataset.couponCode : null;
 
-
-          // Get the value of totalAmount
-          const totalAmountElement = document.getElementById('totalAmount');
-          const CouponDiscTotal = totalAmountElement ? totalAmountElement.textContent.trim() : '0';
-
-          const total = document.getElementById('total').value;
 
           // Proceed with placing the order
           $.ajax({
