@@ -147,8 +147,7 @@ const postOrderPlaced = async (req, res) => {
   try {
     const date = new Date();
 
-    const { selectedAddress, selectedPayment, subTotal, CouponDiscTotal } =
-      req.body;
+    const { selectedAddress, selectedPayment, subTotal, CouponDiscTotal } = req.body;
     const userId = req.session.userId;
 
     let couponApply = false;
@@ -165,7 +164,7 @@ const postOrderPlaced = async (req, res) => {
 
     const randomNum = Math.floor(10000 + Math.random() * 90000);
 
-    const orderID = "SHTP" + randomNum;
+    const orderID = "SKYLIT" + randomNum;
 
     if (selectedPayment === "wallet") {
       const user = await User.findById(userId);
