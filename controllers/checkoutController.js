@@ -1,6 +1,6 @@
 const razorpay = require("razorpay");
 const moment = require("moment");
-
+const crypto = require("crypto");
 const User = require("../models/usersModels");
 const Products = require("../models/productsModel");
 const Coupon = require("../models/couponModel");
@@ -120,24 +120,23 @@ const postOrderPlaced = async (req, res) => {
   try {
     const date = new Date();
 
-    const { selectedAddress, selectedPayment, subTotal, CouponDiscTotal } = req.body;
+    const { selectedAddress, selectedPayment } = req.body;
     const userId = req.session.userId;
 
-    let couponApply = false;
-
-    let couponName;
-
-    const couponData = req.session.coupon;
-    let id;
-
-    if (couponData) {
-      id = couponData._id;
-      couponName = couponData.couponCode;
-    }
-
-    const randomNum = Math.floor(10000 + Math.random() * 90000);
-
+    const randomNum = crypto.randomBytes(6).toString("hex")
     const orderID = "SKYLIT" + randomNum;
+
+         const cartDetails = await Cart.findOne({ user_id: userId }).populate({
+            path: "items.product_id",
+          });
+  
+          let subTotal = 0;
+          console.log('iam cartDetails', cartDetails);
+          if (cartDetails) {
+            cartDetails.items.forEach((product) => {
+              subTotal = subTotal + product.total_price
+            });
+          }
 
     if (selectedPayment === "wallet") {
       const user = await User.findById(userId);
@@ -164,45 +163,8 @@ const postOrderPlaced = async (req, res) => {
       await user.save();
 
       const userData = await User.findOne({ _id: userId });
-      let cartData;
-      let cartProducts;
-
-      // Check if a coupon is applied
-      if (req.session.couponApplied === true) {
-        couponApply = true;
-
-        const updateCouponUsed = await Coupon.updateOne(
-          { _id: id },
-          { $push: { userUsed: { user_id: userId } } }
-        );
-        await Coupon.updateOne({ _id: id }, { $inc: { Availability: -1 } });
-
-        const couponDiscount = req.session.discountAmount || 0;
-
-        cartData = await Cart.findOne({ user_id: userId });
-        cartProducts = cartData.items;
-
-        const totalQuantity = cartProducts.reduce(
-          (total, item) => total + item.quantity,
-          0
-        );
-
-        for (let i = 0; i < cartProducts.length; i++) {
-          const item = cartProducts[i];
-          const discountFraction = item.quantity / totalQuantity;
-          const itemDiscount = Math.round(couponDiscount * discountFraction);
-
-          cartProducts[i].discountAmount = itemDiscount;
-
-          cartProducts[i].couponDiscountTotal += itemDiscount;
-        }
-        req.session.couponApplied = false;
-      } else {
-        cartData = await Cart.findOne({ user_id: userId });
-        cartProducts = cartData.items;
-      }
-
-      const orderDate = date.toLocaleString();
+       let cartData = await Cart.findOne({ user_id: userId });
+       let cartProducts = cartData.items;
 
       const delivery = new Date(date.getTime() + 10 * 24 * 60 * 60 * 1000);
       const deliveryDate = delivery
@@ -219,12 +181,9 @@ const postOrderPlaced = async (req, res) => {
         delivery_address: selectedAddress,
         user_name: userData.username,
         total_amount: subTotal,
-        totalDiscountAmount: CouponDiscTotal,
-        coupon_name: couponName,
         date: date,
         status: status,
         expected_delivery: deliveryDate,
-        couponApplied: couponApply,
         payment: selectedPayment,
         items: cartProducts,
       });
@@ -250,44 +209,9 @@ const postOrderPlaced = async (req, res) => {
     const status = selectedPayment === "cod" ? "placed" : "pending";
 
     const userData = await User.findOne({ _id: userId });
-    let cartData;
-    let cartProducts;
 
-    if (req.session.couponApplied === true) {
-      couponApply = true;
-
-      const updateCouponUsed = await Coupon.updateOne(
-        { _id: id },
-        { $push: { userUsed: { user_id: userId } } }
-      );
-      await Coupon.updateOne({ _id: id }, { $inc: { Availability: -1 } });
-
-      const couponDiscount = req.session.discountAmount || 0;
-
-      cartData = await Cart.findOne({ user_id: userId });
-      cartProducts = cartData.items;
-
-      const totalQuantity = cartProducts.reduce(
-        (total, item) => total + item.quantity,
-        0
-      );
-
-      for (let i = 0; i < cartProducts.length; i++) {
-        const item = cartProducts[i];
-        const discountFraction = item.quantity / totalQuantity;
-        const itemDiscount = Math.round(couponDiscount * discountFraction);
-
-        cartProducts[i].discountAmount = itemDiscount;
-
-        cartProducts[i].couponDiscountTotal = itemDiscount;
-      }
-      req.session.couponApplied = false;
-    } else {
-      cartData = await Cart.findOne({ user_id: userId });
-      cartProducts = cartData.items;
-    }
-
-    // const orderDate = date.toLocaleString();
+     let cartData = await Cart.findOne({ user_id: userId });
+     let cartProducts = cartData.items;
 
     const delivery = new Date(date.getTime() + 10 * 24 * 60 * 60 * 1000);
     const deliveryDate = delivery
@@ -304,13 +228,10 @@ const postOrderPlaced = async (req, res) => {
       delivery_address: selectedAddress,
       user_name: userData.username,
       total_amount: subTotal,
-      totalDiscountAmount: CouponDiscTotal,
-      coupon_name: couponName,
       date: date,
       status: status,
       expected_delivery: deliveryDate,
       payment: selectedPayment,
-      couponApplied: couponApply,
       items: cartProducts,
     });
 
@@ -336,7 +257,7 @@ const postOrderPlaced = async (req, res) => {
       const total = orderData.total_amount;
 
       var options = {
-        amount: total * 100, // amount in the smallest currency unit
+        amount: total * 100, 
         currency: "INR",
         receipt: "" + orderid,
       };
