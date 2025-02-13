@@ -145,29 +145,8 @@
                         <td class="product-name">
                           <%= cartItem.product_id.name %>
                         </td>
-
-                        <% if (cartItem.product_id.offer){ %>
-
-                          <td class="product-price">₹<%= cartItem.product_id.price - (cartItem.product_id.price *
-                              cartItem.product_id.offer.percentage / 100).toFixed(2) %>
-                          </td>
-
-                          <% } else if(cartItem.product_id.category.offer) { %>
-
-                            <td class="product-price">₹<%= cartItem.product_id.price - (cartItem.product_id.price *
-                                cartItem.product_id.category.offer.percentage / 100).toFixed(2) %>
-                            </td>
-
-                            <% }else{ %>
-                              <td class="product-price">₹<%= cartItem.product_id.price %>
-                              </td>
-
-                              <% } %>
-
-
-
+                              <td class="product-price">₹<%= cartItem.product_id.price %> </td>
                                 <td class="quantity">
-
                                   <div class="input-group mb-3" style="width: 80px; position: relative; left: 17%;">
                                     <div class="input-group-prepend">
                                       <button class="quantity-btn minus-btn" id="minus-button" type="button"
@@ -184,24 +163,14 @@
                                     </div>
                                   </div>
                                 </td>
-                                <% if (cartItem.product_id.offer){ %>
-                                  <td class="product-total">₹<%= ((cartItem.product_id.price -
-                                      (cartItem.product_id.price * cartItem.product_id.offer.percentage / 100)) *
-                                      cartItem.quantity).toFixed(2) %>
-                                  </td>
+                            
 
-                                  <% } else if(cartItem.product_id.category.offer) { %>
+                            
 
-                                    <td class="product-total">₹<%= ((cartItem.product_id.price -
-                                        (cartItem.product_id.price * cartItem.product_id.category.offer.percentage /
-                                        100)) * cartItem.quantity).toFixed(2) %>
-                                    </td>
+                             
+                                      <td class="product-total">₹<%= cartItem.product_id.price * cartItem.quantity %></td>
 
-                                    <% }else{ %>
-                                      <td class="product-total">₹<%= cartItem.product_id.price * cartItem.quantity %>
-                                      </td>
-
-                                      <% } %>
+                              
 
                                         <td class="remove-col">
 
@@ -238,19 +207,10 @@
                 </thead>
                 <tbody>
 
-                  <tr class="total-data">
-                    <td><strong>Subtotal: </strong></td>
-                    <td>₹<%= subTotal %>
-                    </td>
-                  </tr>
-                  <tr class="total-data">
-                    <td><strong>Discount: </strong></td>
-                    <td>₹<%= discountAmt.toFixed(2) %>
-                    </td>
-                  </tr>
+            
                   <tr class="total-data">
                     <td><strong>Total: </strong></td>
-                    <td>₹<%= total.toFixed(2) %>
+                    <td>₹<%= total %>
                     </td>
                   </tr>
                 </tbody>

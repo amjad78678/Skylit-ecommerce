@@ -185,25 +185,8 @@
                       <td class="product-name">
                         <%= pro.product_id.name %>
                       </td>
-
-
-                      <% if (pro.product_id.offer){ %>
-
-                        <td class="product-price">₹<%= pro.product_id.price - (pro.product_id.price *
-                            pro.product_id.offer.percentage / 100).toFixed(2) %>
-                        </td>
-
-                        <% } else if(pro.product_id.category.offer) { %>
-
-                          <td class="product-price">₹<%= pro.product_id.price - (pro.product_id.price *
-                              pro.product_id.category.offer.percentage / 100).toFixed(2) %>
-                          </td>
-
-                          <% }else{ %>
                             <td class="product-price">₹<%= pro.product_id.price %>
                             </td>
-
-                            <% } %>
                               <td class="quantity">
                                 <div class="input-group mb-3" style="width: 80px; position: relative; left: 30%;">
                                   <input style="text-align: center;" type="text" name="quantity"
@@ -211,23 +194,8 @@
                                     value="<%= pro.quantity %>" readonly>
                                 </div>
                               </td>
-
-                              <% if (pro.product_id.offer){ %>
-                                <td class="product-total">₹<%= ((pro.product_id.price - (pro.product_id.price *
-                                    pro.product_id.offer.percentage / 100)) * pro.quantity).toFixed(2) %>
-                                </td>
-
-                                <% } else if(pro.product_id.category.offer) { %>
-
-                                  <td class="product-total">₹<%= ((pro.product_id.price - (pro.product_id.price *
-                                      pro.product_id.category.offer.percentage / 100)) * pro.quantity).toFixed(2) %>
-                                  </td>
-
-                                  <% }else{ %>
                                     <td class="product-total">₹<%= pro.product_id.price * pro.quantity %>
                                     </td>
-                                    <% } %>
-
                     </tr>
                 </tbody>
 
@@ -272,7 +240,6 @@
                             </div>
                           </div>
                           <div class="col-sm-8">
-                            <input type="hidden" id="total" value="<%= subTotal  %>">
                             <h6 class="mb-1">
                               <%= address.name %>
                             </h6>
@@ -315,13 +282,7 @@
                   <h3 class="billing-heading mb-4">Cart Total</h3>
                   <p class="d-flex">
                     <span>Subtotal</span>
-                    <span>₹<%= originalAmt %></span>
-                  </p>
-                  <p class="d-flex">
-                    <span>Discount</span>
-
-                    <span id="sub_total">₹<%= (discountAmount+offerDiscount).toFixed(2) %></span>
-
+                    <span>₹<%= total %></span>
                   </p>
                   <p class="d-flex">
                     <span>Delivery</span>
@@ -332,7 +293,7 @@
                     <span>Total</span>
 
                     ₹<span id="totalAmount">
-                      <%= subTotal - (discountAmount) %>
+                      <%= total %>
                     </span>
 
 

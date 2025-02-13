@@ -897,43 +897,20 @@ const loadCart = async (req, res) => {
       const userData = await User.findOne({ _id: userId });
 
       let total = 0;
-      let discountAmt = 0;
-      let originalAmts = 0;
+
+      console.log('iam cartDetails', cartDetails);
 
       if (cartDetails) {
         cartDetails.items.forEach((product) => {
           let itemPrice = product.product_id.price;
-          originalAmts += itemPrice * product.quantity;
-
-          // Check if there's an offer on the product
-          if (product.product_id.offer) {
-            const { percentage } = product.product_id.offer;
-
-            itemPrice -= (itemPrice * percentage) / 100;
-          }
-
-          // Check if there's an offer on the category
-          else if (product.product_id.category.offer) {
-            const { percentage } = product.product_id.category.offer;
-            itemPrice -= (itemPrice * percentage) / 100;
-          }
-
-          // let price = Math.floor(itemPrice)
-
-          total += itemPrice * product.quantity;
-
-          discountAmt = originalAmts - total;
-
-          req.session.offerDiscount = discountAmt;
+          total = total + product.total_price
         });
       }
 
       res.render("cart", {
         user: userData,
         cartDetails,
-        subTotal: originalAmts,
-        total,
-        discountAmt,
+        total: total,
       });
     }
   } catch (error) {

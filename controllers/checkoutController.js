@@ -42,34 +42,10 @@ const loadCheckout = async (req, res) => {
       });
 
     if (userId && cart) {
-      let subTotal = 0;
-      let originalAmt = 0;
-
+       let total=0;
       if (cart && cart.items) {
-        cart.items.forEach(async (cartItem) => {
-          let itemPrice = cartItem.product_id.price; // Use the price from the populated product
-          let itemQuantity = cartItem.quantity;
-          cartTotalPrice = cartItem.total_price;
-
-          originalAmt += cartTotalPrice;
-          // Check if there's an offer at the product level
-          if (cartItem.product_id.offer) {
-            itemPrice -=
-              (itemPrice * cartItem.product_id.offer.percentage) / 100;
-          }
-
-          // Check if there's an offer at the category level
-          else if (
-            cartItem.product_id.category &&
-            cartItem.product_id.category.offer
-          ) {
-            itemPrice -=
-              (itemPrice * cartItem.product_id.category.offer.percentage) / 100;
-          }
-
-          let itemTotal = itemPrice * itemQuantity;
-
-          subTotal += itemTotal;
+        cart.items.forEach((product) => {
+          total = total + product.total_price
         });
       }
 
@@ -92,12 +68,9 @@ const loadCheckout = async (req, res) => {
 
       res.render("checkout-items", {
         cart,
-        subTotal,
-        discountAmount,
         user,
         coupons: filteredCoupons,
-        offerDiscount,
-        originalAmt,
+        total: total
       });
     } else {
       res.redirect("/");
