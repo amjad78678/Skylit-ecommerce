@@ -178,14 +178,14 @@ const generateOtp = async ({ email }, res) => {
       subject: "Account Verification - Action Required",
       html: `
         <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; background-color: #f9f9f9; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-          <h1 style="color: #3498db; text-align: center;">Shoetopia</h1>
+          <h1 style="color: #3498db; text-align: center;">Skylit</h1>
           <p style="text-align: center; font-size: 18px;">Dear User,</p>
           <p style="text-align: center; font-size: 16px;">Thank you for using our service. To complete your login, please enter the following OTP (One-Time Password):</p>
           <h2 style="color: #2ecc71; text-align: center; font-size: 36px; margin: 20px 0;">${otp}</h2>
           <p style="text-align: center; font-size: 16px;">This OTP is valid for ${otpExpirationMinutes} minutes. If you did not initiate this action, please ignore this email.</p>
           <p style="text-align: center; font-size: 16px; margin-bottom: 20px;">For security reasons, do not share your OTP with anyone.</p>
           <p style="text-align: center; font-size: 16px;">If you have any questions or concerns, please contact our support team.</p>
-          <p style="text-align: center; font-size: 16px; margin: 20px 0;">Best regards,<br>Shoetopia</p>
+          <p style="text-align: center; font-size: 16px; margin: 20px 0;">Best regards,<br>Skylit</p>
         </div>
       `,
     };
@@ -258,14 +258,14 @@ const sendOtpVerificationEmail = async (req, res) => {
       subject: "Signup OTP - Verify Your Account",
       html: `
         <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; background-color: #f9f9f9; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-          <h1 style="color: #3498db; text-align: center;">Shoetopia</h1>
+          <h1 style="color: #3498db; text-align: center;">Skylit</h1>
           <p style="text-align: center; font-size: 18px;">Dear User,</p>
-          <p style="text-align: center; font-size: 16px;">Thank you for signing up with Shoetopia. To verify your account, please enter the following OTP (One-Time Password):</p>
+          <p style="text-align: center; font-size: 16px;">Thank you for signing up with Skylit. To verify your account, please enter the following OTP (One-Time Password):</p>
           <h2 style="color: #2ecc71; text-align: center; font-size: 36px; margin: 20px 0;">${otp}</h2>
           <p style="text-align: center; font-size: 16px;">This OTP is valid for ${otpExpirationMinutes} minutes. If you did not initiate this action, please ignore this email.</p>
           <p style="text-align: center; font-size: 16px; margin-bottom: 20px;">For security reasons, do not share your OTP with anyone.</p>
           <p style="text-align: center; font-size: 16px;">If you have any questions or concerns, please contact our support team.</p>
-          <p style="text-align: center; font-size: 16px; margin: 20px 0;">Best regards,<br>Shoetopia</p>
+          <p style="text-align: center; font-size: 16px; margin: 20px 0;">Best regards,<br>Skylit</p>
         </div>
       `,
     };
@@ -800,14 +800,14 @@ const sentResetLink = async (username, email, token) => {
       subject: "Password Reset Request",
       html: `
         <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; background-color: #f9f9f9; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-          <h1 style="color: #3498db; text-align: center;">Shoetopia</h1>
+          <h1 style="color: #3498db; text-align: center;">Skylit</h1>
           <p style="text-align: center; font-size: 18px;">Hi ${username},</p>
           <p style="text-align: center; font-size: 16px;">We received a request to reset your password. If this wasn't you, please ignore this email.</p>
           <p style="text-align: center; font-size: 16px;">To reset your password, click the link below:</p>
-          <p style="text-align: center; font-size: 16px;"><a href='http://shop.shoetopia.site/ResetForgetPass?token=${token}' style="color: #2ecc71; text-decoration: none;">Reset Your Password</a></p>
+          <p style="text-align: center; font-size: 16px;"><a href='http://shop.Skylit.site/ResetForgetPass?token=${token}' style="color: #2ecc71; text-decoration: none;">Reset Your Password</a></p>
           <p style="text-align: center; font-size: 16px;">This link will expire in 1 hour for security reasons.</p>
           <p style="text-align: center; font-size: 16px;">If you didn't request a password reset or have any concerns, please contact our support team immediately.</p>
-          <p style="text-align: center; font-size: 16px; margin: 20px 0;">Best regards,<br>Shoetopia</p>
+          <p style="text-align: center; font-size: 16px; margin: 20px 0;">Best regards,<br>Skylit</p>
         </div>
       `,
     };

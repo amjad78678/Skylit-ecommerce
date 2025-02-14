@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Shoetopia - Checkout</title>
+  <title>Skylit - Checkout</title>
   <link rel="icon" type="image/x-icon" href="/assets/images/headericon.webp">
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
   <meta name="description" content="" />
@@ -324,7 +324,7 @@
                   <div class="form-group">
                     <div class="col-md-12">
                       <div class="radio">
-                        <label><input type="radio" name="payment" value="wallet" class="mr-2">Shoetopia Wallet </label>
+                        <label><input type="radio" name="payment" value="wallet" class="mr-2">Skylit Wallet </label>
                         <label style=" color :rgb(87, 87, 87);">[Balance :<span style="color: rgb(122, 122, 122);"> ₹
                             <%=user.wallet.toFixed(2) %>
                           </span> ]</label>
@@ -565,6 +565,7 @@
                 });
               }
               else {
+                console.log('i am after created intance of the order which using options', response.order);
                 razorpayPayment(response.order);
               }
             },
@@ -578,21 +579,20 @@
             "key": "rzp_test_onuozcYahsp9a3", // Enter the Key ID generated from the Dashboard
             "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
             "currency": "INR",
-            "name": "Shoetopia", //your business name
+            "name": "Skylit",
             "description": "Test Transaction",
             "image": "https://example.com/your_logo",
             "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-            // "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
             "handler": function (response) {
               verifyPayment(response, order)
             },
             "prefill": {
               "name": name, //your customer's name
-              "email": "shoetopia@example.com",
-              "contact": "9000090000"
+              "email": "skylit1123@gmail.com",
+              "contact": "917306149125"
             },
             "notes": {
-              "address": "Razorpay Corporate Office"
+              "address": "Skylit Corporate Office"
             },
             "theme": {
               "color": "#dbcc8f"
