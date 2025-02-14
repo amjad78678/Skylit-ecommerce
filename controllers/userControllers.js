@@ -6,13 +6,11 @@ const Order = require("../models/orderModel");
 const bannerModel = require("../models/bannerModel");
 const bcrypt = require("bcrypt");
 const moment = require("moment");
-const { error } = require("console");
 const dotenv = require("dotenv");
 const nodemailer = require("nodemailer");
 const randomstring = require("randomstring");
 const userOtpVerification = require("../models/userOtpVerification");
-const { request } = require("http");
-const { query } = require("express");
+const passport = require('passport');
 dotenv.config();
 
 const securePassword = async (password) => {
@@ -1459,6 +1457,66 @@ const postReview = async (req, res) => {
   }
 };
 
+//googleLogin
+const googleAuth = passport.authenticate('google', {
+  scope: ['profile', 'email']
+});
+
+const googleCallback = (req, res, next) => {
+  passport.authenticate('google', async (err, user) => {
+    if (err) {
+      return res.redirect('/login?error=' + encodeURIComponent('Authentication failed'));
+    }
+    
+    if (!user) {
+      return res.redirect('/login?error=' + encodeURIComponent('User not found'));
+    }
+    
+    // Check if user is blocked
+    if (user.is_blocked === 1) {
+      return res.redirect('/login?error=' + encodeURIComponent('Your account is blocked'));
+    }
+    
+    // If mobile number is not set, redirect to complete profile
+    if (!user.mobile) {
+      return res.redirect('/complete-profile?userId=' + user.id);
+    }
+    
+    req.logIn(user, (err) => {
+      if (err) {
+        return next(err);
+      }
+      return res.redirect('/dashboard');
+    });
+  })(req, res, next);
+};
+
+
+const completeProfile = async (req, res) => {
+  try {
+    const { userId, mobile } = req.body;
+    
+    const user = await User.findByIdAndUpdate(userId, 
+      { mobile: mobile },
+      { new: true }
+    );
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    
+    req.logIn(user, (err) => {
+      if (err) {
+        return res.status(500).json({ message: 'Login failed' });
+      }
+      return res.redirect('/dashboard');
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
 module.exports = {
   loadHome,
   loadAbout,
@@ -1493,4 +1551,8 @@ module.exports = {
   loadWallet,
   loadRatings,
   postReview,
+  googleAuth,
+  googleCallback,
+  completeProfile
+
 };

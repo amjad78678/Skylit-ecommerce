@@ -9,6 +9,8 @@ const session = require('express-session');
 const path = require('path');
 const flash = require('express-flash');
 const morgan = require('morgan');
+const passport = require('passport');
+require('./config/passport-google');
 
 
 // Use the 'upload' middleware for handling file uploads
@@ -31,6 +33,9 @@ app.use(
       resave: true
     })
   );
+
+app.use(passport.initialize());
+app.use(passport.session());
 
   app.use((req,res,next)=>{
     res.set('Cache-control','no-store,no-cache')

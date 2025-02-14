@@ -4,7 +4,6 @@ const userRoute = express();
 const auth = require("../middleware/userAuth");
 const userController = require("../controllers/userControllers");
 const ordersController = require('../controllers/ordersController');
-const wishlistController = require('../controllers/wishlistController');
 
 userRoute.set("views", "./views/user");
 
@@ -15,6 +14,10 @@ userRoute.get("/home", auth.isLogin, userController.loadHome);
 userRoute.get("/about",userController.loadAbout);
 
 userRoute.get("/login", auth.isLogout, userController.loadLogin);
+userRoute.get('/auth/google', userController.googleAuth);
+userRoute.get('/auth/google/callback', userController.googleCallback);
+userRoute.post('/complete-profile', userController.completeProfile);
+
 
 userRoute.get("/signup", auth.isLogout, userController.loadSignup);
 
